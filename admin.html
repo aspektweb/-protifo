@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Axak</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #0f0f13 0%, #1a1a24 50%, #0d1117 100%);
+      min-height: 100vh;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .btn-glow { transition: all 0.3s ease; }
+    .btn-glow:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+    input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    input:focus {
+      outline: none;
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+  </style>
+</head>
+<body class="text-gray-200">
+
+  <div class="min-h-screen flex items-center justify-center px-5 py-10">
+    
+    <!-- Login Form -->
+    <div id="loginBox" class="glass rounded-2xl p-8 w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-white mb-1">Admin Panel</h1>
+        <p class="text-gray-400 text-sm">Kirish uchun ma'lumotlaringizni kiriting</p>
+      </div>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label class="block text-sm text-gray-400 mb-1.5">Email</label>
+          <input type="email" id="email" required placeholder="email@example.com"
+            class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-500" />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1.5">Parol</label>
+          <input type="password" id="password" required placeholder="••••••••"
+            class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-500" />
+        </div>
+        <button type="submit" class="btn-glow w-full py-3.5 rounded-xl bg-indigo-500 text-white font-medium">
+          Kirish
+        </button>
+        <p id="loginMsg" class="text-center text-sm hidden"></p>
+      </form>
+
+      <p class="text-center text-gray-500 text-xs mt-6">
+        <a href="index.html" class="hover:text-indigo-400 transition">← Bosh sahifaga qaytish</a>
+      </p>
+    </div>
+
+    <!-- Dashboard (login bo'lgandan keyin) -->
+    <div id="dashboard" class="hidden w-full max-w-4xl">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="text-2xl font-bold text-white">Dashboard</h1>
+          <p class="text-gray-400 text-sm">Xush kelibsiz, Admin</p>
+        </div>
+        <button id="logoutBtn" class="px-4 py-2 rounded-lg glass text-sm text-gray-300 hover:text-white transition">
+          Chiqish
+        </button>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-8">
+        <div class="glass rounded-2xl p-5">
+          <p class="text-gray-400 text-sm mb-1">Jami xabarlar</p>
+          <p id="msgCount" class="text-3xl font-bold text-white">0</p>
+        </div>
+        <div class="glass rounded-2xl p-5">
+          <p class="text-gray-400 text-sm mb-1">O‘qilmagan</p>
+          <p id="unreadCount" class="text-3xl font-bold text-indigo-400">0</p>
+        </div>
+        <div class="glass rounded-2xl p-5">
+          <p class="text-gray-400 text-sm mb-1">Holat</p>
+          <p class="text-lg font-medium text-emerald-400">Online</p>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl p-6">
+        <h2 class="text-lg font-semibold text-white mb-4">Aloqa xabarlari</h2>
+        <div id="messagesList" class="space-y-3">
+          <p class="text-gray-500 text-sm">Hozircha xabar yo‘q yoki server ishlamayapti.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api';
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('loginMsg');
+      msg.classList.remove('hidden');
+      msg.textContent = 'Tekshirilmoqda...';
+      msg.className = 'text-center text-sm text-indigo-300';
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+          })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          showDashboard();
+        } else {
+          msg.className = 'text-center text-sm text-red-400';
+          msg.textContent = data.message || 'Xato';
+        }
+      } catch (err) {
+        msg.className = 'text-center text-sm text-amber-400';
+        msg.textContent = 'Server ishlamayapti. Backend ishga tushirilmagan.';
+      }
+    });
+
+    function showDashboard() {
+      document.getElementById('loginBox').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadMessages();
+    }
+
+    async function loadMessages() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API}/contact`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('msgCount').textContent = data.count;
+          document.getElementById('unreadCount').textContent = data.data.filter(m => !m.isRead).length;
+
+          const list = document.getElementById('messagesList');
+          if (data.data.length === 0) {
+            list.innerHTML = '<p class="text-gray-500 text-sm">Hozircha xabar yo‘q.</p>';
+            return;
+          }
+          list.innerHTML = data.data.map(m => `
+            <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+              <div class="flex justify-between items-start mb-1">
+                <p class="text-white font-medium">${m.name}</p>
+                <span class="text-xs text-gray-500">${new Date(m.createdAt).toLocaleDateString('uz')}</span>
+              </div>
+              <p class="text-gray-400 text-sm mb-1">${m.email} ${m.phone ? '· ' + m.phone : ''}</p>
+              <p class="text-indigo-300 text-sm mb-2">${m.subject}</p>
+              <p class="text-gray-300 text-sm">${m.message}</p>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.log('Xabarlarni yuklashda xato');
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.reload();
+    });
+
+    // Agar oldin login qilgan bo'lsa
+    if (localStorage.getItem('token')) {
+      showDashboard();
+    }
+  </script>
+</body>
+</html>

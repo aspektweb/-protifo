@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Axak | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * { font-family: 'Inter', sans-serif; }
+    
+    body {
+      background: linear-gradient(135deg, #0f0f13 0%, #1a1a24 50%, #0d1117 100%);
+      min-height: 100vh;
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-hover {
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-hover:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
+    }
+    
+    .btn-glow {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-glow:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+    }
+    
+    .btn-glow:active {
+      transform: scale(0.97);
+    }
+    
+    .nav-link {
+      position: relative;
+      transition: color 0.3s;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #818cf8;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    .fade-up {
+      animation: fadeUp 0.7s ease forwards;
+      opacity: 0;
+    }
+    
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="text-gray-200">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="index.html" class="text-xl font-semibold tracking-tight text-white">
+        Axak<span class="text-indigo-400">.</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="index.html" class="nav-link active text-white">Bosh sahifa</a>
+        <a href="projects.html" class="nav-link text-gray-400 hover:text-white">Loyihalar</a>
+        <a href="contact.html" class="nav-link text-gray-400 hover:text-white">Aloqa</a>
+        <a href="admin.html" class="btn-glow px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-sm">
+          Admin
+        </a>
+      </div>
+      <!-- Mobile menu button -->
+      <button id="menuBtn" class="md:hidden text-gray-300 text-xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden px-5 pb-4 space-y-3">
+      <a href="index.html" class="block text-white">Bosh sahifa</a>
+      <a href="projects.html" class="block text-gray-400">Loyihalar</a>
+      <a href="contact.html" class="block text-gray-400">Aloqa</a>
+      <a href="admin.html" class="block text-indigo-300">Admin</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-32 pb-20 px-5">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="fade-up text-indigo-400 text-sm font-medium tracking-widest uppercase mb-4">Portfolio & Services</p>
+      <h1 class="fade-up delay-1 text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+        Zamonaviy web yechimlar<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">sifatli kod</span>
+      </h1>
+      <p class="fade-up delay-2 text-gray-400 max-w-xl mx-auto mb-10 text-lg">
+        Frontend, Backend va Web Dizayn bo‘yicha professional xizmatlar. 
+        Sizning g‘oyalaringizni hayotga tatbiq etaman.
+      </p>
+      <div class="fade-up delay-3 flex flex-wrap justify-center gap-4">
+        <a href="projects.html" class="btn-glow px-7 py-3.5 rounded-xl bg-indigo-500 text-white font-medium">
+          Loyihalarni ko‘rish
+        </a>
+        <a href="contact.html" class="btn-glow px-7 py-3.5 rounded-xl glass text-white font-medium">
+          Bog‘lanish
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="py-16 px-5">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-semibold text-white text-center mb-12">Xizmatlar</h2>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Service 1 -->
+        <div class="glass glass-hover rounded-2xl p-6 fade-up">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/15 flex items-center justify-center mb-5">
+            <i class="fas fa-palette text-indigo-400 text-xl"></i>
+          </div>
+          <h3 class="text-white font-semibold text-lg mb-2">Web Dizayn</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Zamonaviy, toza va foydalanuvchiga qulay interfeyslar. UI/UX asosida ishlayman.
+          </p>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="glass glass-hover rounded-2xl p-6 fade-up delay-1">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-5">
+            <i class="fas fa-code text-purple-400 text-xl"></i>
+          </div>
+          <h3 class="text-white font-semibold text-lg mb-2">Frontend</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            React, Next.js, Vue va boshqa texnologiyalar yordamida tez va chiroyli saytlar.
+          </p>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="glass glass-hover rounded-2xl p-6 fade-up delay-2">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/15 flex items-center justify-center mb-5">
+            <i class="fas fa-server text-cyan-400 text-xl"></i>
+          </div>
+          <h3 class="text-white font-semibold text-lg mb-2">Backend</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Node.js, API, autentifikatsiya, database va server tomonidagi to‘liq yechimlar.
+          </p>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="glass glass-hover rounded-2xl p-6 fade-up delay-3">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center mb-5">
+            <i class="fas fa-comments text-emerald-400 text-xl"></i>
+          </div>
+          <h3 class="text-white font-semibold text-lg mb-2">Xushmuomala</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Mijozlar bilan ochiq, tushunarli va doimo aloqada bo‘lish. Sifatli xizmat.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 px-5">
+    <div class="max-w-3xl mx-auto glass rounded-3xl p-10 text-center">
+      <h2 class="text-2xl md:text-3xl font-semibold text-white mb-4">Loyihangiz bormi?</h2>
+      <p class="text-gray-400 mb-8">Keling, birgalikda sifatli mahsulot yaratamiz.</p>
+      <a href="contact.html" class="btn-glow inline-block px-8 py-3.5 rounded-xl bg-indigo-500 text-white font-medium">
+        Xabar yuborish
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-8 px-5 text-center text-gray-500 text-sm">
+    <p>© 2026 Axak. Barcha huquqlar himoyalangan.</p>
+  </footer>
+
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
